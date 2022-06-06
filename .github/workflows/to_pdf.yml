@@ -11,7 +11,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Install LaTeX Things
       run: |
-        sudo apt-get update && sudo apt-get install texlive texlive-lang-german texlive-latex-extra latexmk -y
+        sudo apt-get update && sudo apt-get install texlive-humanities latexmk -y
     - name: Convert Files
       run: |
         cd tex/
