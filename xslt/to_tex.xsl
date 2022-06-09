@@ -158,9 +158,8 @@
     </xsl:template>
     
     <xsl:template match="tei:p[(@rend='h1')]">
-        <xsl:text>\pstart[\section{</xsl:text>
-        <xsl:apply-templates/>
-        <xsl:text>}]</xsl:text>
+        <xsl:text>\pstart</xsl:text>
+        <xsl:text>\eledsection*{</xsl:text><xsl:apply-templates/><xsl:text>}</xsl:text>
         <xsl:text>\pend</xsl:text>
     </xsl:template>
     
