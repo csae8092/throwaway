@@ -1,11 +1,131 @@
 
-        \documentclass{article}
-        \usepackage[german]{babel}
+        \documentclass[twoside=true,titlepage=false,open=any, parskip=never, fontsize=10pt, headings=small, chapterprefix=false, appendixprefix=false]{scrbook}
+        \addtolength{\oddsidemargin}{\evensidemargin}
+        \setlength{\oddsidemargin}{.5\oddsidemargin}
+        \setlength{\evensidemargin}{\oddsidemargin}
+        \usepackage[paperheight=230mm, paperwidth=138mm, textwidth=100mm, textheight=185mm]{geometry}
+        
+        \usepackage{scrlayer-scrpage}
+        \usepackage{hyphenat}
+        \usepackage{fontspec}
+        \usepackage{moresize}
+        %\usepackage{ipa}
+        \usepackage[english, ngerman]{babel}
+        \usepackage[babel]{microtype}
+        \usepackage{soul}
+        \usepackage{scrhack}
+        \usepackage{xpatch}
         \usepackage[nonewpage]{indextools}
         \usepackage{lettrine}
-        \usepackage[series={A,B}]{reledmac}
-        \Xendparagraph[]
-        \Xendsep{$\parallel$}
+        \usepackage[series={A,B,C}]{reledmac}
+        
+        \setmainfont[Path=./fonts/,
+        Extension=.ttf,
+        UprightFont=*-Roman,
+        BoldFont=*-Bold,
+        ItalicFont=*-Italic,
+        BoldItalicFont=*-BoldItalic]{Brill}
+        
+        \KOMAoptions{toc=chapterentrydotfill, toc=flat}
+        \addtokomafont{chapterentrypagenumber}{\mdseries}
+        \setkomafont{chapterentry}{\normalfont\mdseries}
+        \setkomafont{partentry}{\normalfont\mdseries}
+        \RedeclareSectionCommand[tocbeforeskip=0pt]{chapter}         
+        
+        \setlength{\skip\footins}{4mm plus 2mm} % Abstand Fussnote Text
+        \interfootnotelinepenalty=10000 % Kein Seitenwechsel in Fuss
+        
+        %% Sperrung (Package Soul)
+        %% Hier ist die Sperrung definiert. Sperrung erreicht man mit \so{gesperrtes Wort}
+        \sodef\so{}{.14em}{.4em plus.1em minus .1em}{.4em plus.1em minus .1em}
+        
+        
+        
+        % Fußnoten linksbündig
+        \deffootnote{1.5em}{1em}{% 
+        \makebox[1.5em][l]{\thefootnotemark}%
+        }
+        
+        
+        % Fussnotenlineal (wobei für reledmac wohl was anderes gilt)
+        \let\normalfootnoterule\footnoterule
+        \setfootnoterule{0pt}
+        \let\normalfootnoterule\footnoterule
+        
+        
+        \setlength{\skip\footins}{8mm plus 2mm} % Abstand Fussnote Text
+        \interfootnotelinepenalty=10000 % Kein Seitenwechsel in Fuss
+        
+        %% Kapitelüberschriften
+        \renewcommand*{\raggedchapter}{\centering} 
+        \renewcommand*{\raggedsection}{%
+        \CenteringLeftskip=1cm plus 1em\relax 
+        \CenteringRightskip=1cm plus 1em\relax 
+        \Centering\footnotesize\thesection{}.\ }
+        \setkomafont{section}{\footnotesize}
+        \setkomafont{chapter}{\normalfont\Large}
+        \renewcommand{\chapterpagestyle}{empty}%The first page in each chapter won't have any heading or footer, especially no page number
+        
+        % section ohne führende Kapitelnummer
+        \renewcommand*\thesection{\arabic{section}}
+        
+        % Bildunterschrift ohne Nummer
+        \renewcommand*{\figureformat}{}
+        \renewcommand*{\captionformat}{}
+        
+        %% Zeilennummern
+        \firstlinenum{0} \linenumincrement{5}
+        \lineation{section} %Jeder Abschnitt wird durchnummeriert
+        \renewcommand{\numlabfont}{\ssmall} %Schriftgröße Zeilennummern
+        
+        
+        \newcommand{\Theight}{\dimexpr\fontcharht\font`W}
+        \newcommand{\pbposition}{\depth}
+        \newcommand{\pb}{\nobreak\hspace{0pt}\raisebox{-0.1em}{\raisebox{\pbposition}{\textnormal{HANSI4EVER}}}\nobreak\hspace{0pt}}
+        
+        \renewcaptionname{ngerman}{\contentsname}{Inhalt}           %Table of contents
+        
+        % FUSSNOTE
+        %% Im Apparat f. und ff.
+        \Xtwolines{f.}
+        \Xtwolinesbutnotmore
+        
+        %% Zeilennummerierung Abstand zum Lemma
+        \Xboxlinenum{5mm}
+        
+        %% Bei zwei Apparateinträgen in einer Zeile wird nur beim ersten Mal die Zeile gezählt
+        \Xnumberonlyfirstinline
+        \Xnumberonlyfirstintwolines
+        \Xinplaceofnumber{1em}
+        \Xhangindent{1em}
+        
+        % ENDNOTEN
+        \Xendbeforepagenumber{} 
+        \Xendparagraph[A]
+        \Xendsep{}
+        \Xendafterpagenumber[A]{, }
+        \Xendnotenumfont[A]{\tiny}
+        \Xendlineprefixsingle[A]{\tiny}
+        \Xendlineprefixmore[A]{\tiny}
+        \Xendhangindent[A]{4em}
+        
+        \Xendboxlinenum[A]{0em}
+        \Xendlemmaseparator{$\rbracket$}
+        \Xendnotefontsize[A]{\footnotesize}
+        \Xendhangindent[A]{0em}
+        \Xendlemmafont[A]{\normalfont}
+        \Xendlemmafont[B]{\bfseries}
+        \Xendnotefontsize[B]{\footnotesize}
+        \Xendnotenumfont{\footnotesize}
+        \Xendlineprefixsingle[C]{\tiny}
+        \Xendlineprefixmore[C]{\tiny}
+        \Xendlemmadisablefontselection
+        \Xendlemmafont{\itshape}
+        \Xendlinerangeseparator{\tiny{--}}
+        \Xendhangindent{4em}
+        \Xendboxlinenum{3.6em}
+        \Xendafternumber{0.4em}
+        \Xendboxlinenumalign{R}
         
         \makeindex[name=kw,title=Schlagworteregister,columns=2]
         \makeindex[name=person,title=Personenregister,columns=2]
@@ -40,28 +160,16 @@
          
             
             
+            \pstart[\section{
+               \edtext{I}{\lemma{\textbf{I}}\Aendnote{I. E  D1D2 }}}]\pend
             
         \pstart
-        
-               
-        \edtext{I}{\lemma{\textbf{I}}\Aendnote{I. E  D1D2 }}
-    
-        \pend
-    
-            
-        \pstart
-        In 
-        \edtext{den}{\lemma{\textbf{den}}\Aendnote{ D2D1E }}
-     Zeiten, die wir vorwissenschaftliche nennen dürfen, waren die Menschen um
+        In \edtext{den}{\lemma{\textbf{den}}\Aendnote{ D2D1E }} Zeiten, die wir vorwissenschaftliche nennen dürfen, waren die Menschen um
                die Erklärung des Traumes\edindex[kw]{Schlagwort Nr. 2748} nicht verlegen.
                Wenn sie ihn nach dem Erwachen erinnerten, galt er ihnen als eine entweder
-               gnädige oder feindselige Kundgebung höherer, dämonischer und göttlicher
-        \edtext{}{\lemma{\textbf{}}\Aendnote{, ED1D2 }}
-     Mächte. Mit dem Aufblühen naturwissenschaftlicher Denkweisen
+               gnädige oder feindselige Kundgebung höherer, dämonischer und göttlicher\edtext{}{\lemma{\textbf{}}\Aendnote{, ED1D2 }} Mächte. Mit dem Aufblühen naturwissenschaftlicher Denkweisen
                hat sich all diese sinnreiche Mythologie\edindex[kw]{Schlagwort Nr. 1830} in Psychologie umgesetzt, und heute
-               bezweifelt nur mehr eine geringe Minderzahl unter den Gebildeten, 
-        \edtext{daß}{\lemma{\textbf{daß}}\Aendnote{dass ED1D2 }}
-     der Traum die eigene psychische Leistung
+               bezweifelt nur mehr eine geringe Minderzahl unter den Gebildeten, \edtext{daß}{\lemma{\textbf{daß}}\Aendnote{dass ED1D2 }} der Traum die eigene psychische Leistung
                des Träumers ist.
         \pend
     
@@ -69,23 +177,15 @@
         \pstart
         Seit der Verwerfung der mythologischen\edindex[kw]{Schlagwort Nr. 1830} Hypothese ist der
                Traum\edindex[kw]{Schlagwort Nr. 2748} aber erklärungsbedürftig geworden. Die Bedingungen
-               seiner Entstehung, seine Beziehung zum Seelenleben des Wachens\edindex[kw]{Schlagwort Nr. 3169}, seine Abhängigkeit von Reizen, die sich während des Schlafzustandes\edindex[kw]{Schlagwort Nr. 2337} zur Wahrnehmung\edindex[kw]{Schlagwort Nr. 3186} drängen, die vielen dem wachen Denken 
-        \edtext{anstößigen}{\lemma{\textbf{anstößigen}}\Aendnote{anstössigen ED1D2 }}
-     Eigentümlichkeiten seines Inhaltes, die Inkongruenz zwischen seinen
+               seiner Entstehung, seine Beziehung zum Seelenleben des Wachens\edindex[kw]{Schlagwort Nr. 3169}, seine Abhängigkeit von Reizen, die sich während des Schlafzustandes\edindex[kw]{Schlagwort Nr. 2337} zur Wahrnehmung\edindex[kw]{Schlagwort Nr. 3186} drängen, die vielen dem wachen Denken \edtext{anstößigen}{\lemma{\textbf{anstößigen}}\Aendnote{anstössigen ED1D2 }} Eigentümlichkeiten seines Inhaltes, die Inkongruenz zwischen seinen
                Vorstellungsbildern und den an sie geknüpften
                Affekten\edindex[kw]{Schlagwort Nr. 52}, endlich die Flüchtigkeit des Traumes, die Art,
-               wie das wache Denken ihn als fremdartig 
-        \edtext{beiseite}{\lemma{\textbf{beiseite}}\Aendnote{bei Seite ED1D2 beiseiteschiebt S }}
-    
-               
-        \edtext{schiebt}{\lemma{\textbf{schiebt}}\Aendnote{ S }}
-    , in der Erinnerung\edindex[kw]{Schlagwort Nr. 685} verstümmelt oder auslöscht:
+               wie das wache Denken ihn als fremdartig \edtext{beiseite}{\lemma{\textbf{beiseite}}\Aendnote{bei Seite ED1D2 beiseiteschiebt S }}
+               \edtext{schiebt}{\lemma{\textbf{schiebt}}\Aendnote{ S }}, in der Erinnerung\edindex[kw]{Schlagwort Nr. 685} verstümmelt oder auslöscht:
                — all diese und noch andere Probleme verlangen seit vielen hundert
                Jahren nach Lösungen, die bis heute nicht befriedigend gegeben werden konnten.
                Im Vordergrunde des Interesses steht aber die Frage nach der Bedeutung des Traumes, die einen zweifachen Sinn
-               in sich 
-        \edtext{schließt}{\lemma{\textbf{schließt}}\Aendnote{schliesst ED1D2 }}
-    . Sie
+               in sich \edtext{schließt}{\lemma{\textbf{schließt}}\Aendnote{schliesst ED1D2 }}. Sie
         \pend
     
          
@@ -105,54 +205,24 @@
             
         \pstart
         Drei Richtungen machen sich in der Würdigung des Traumes\edindex[kw]{Schlagwort Nr. 2748} bemerkbar. Die eine derselben, die gleichsam den Nachklang
-               der alten 
-        \edtext{Überschätzung}{\lemma{\textbf{Überschätzung}}\Aendnote{Ueberschätzung E }}
-     des Traumes bewahrt hat, findet ihren Ausdruck bei manchen
+               der alten \edtext{Überschätzung}{\lemma{\textbf{Überschätzung}}\Aendnote{Ueberschätzung E }} des Traumes bewahrt hat, findet ihren Ausdruck bei manchen
                Philosophen. Ihnen gilt als die Grundlage des Traumlebens ein besonderer Zustand
-               der 
-        \edtext{Seelentätigkeit}{\lemma{\textbf{Seelentätigkeit}}\Aendnote{Seelenthätigkeit E }}
-    , den sie sogar als eine Erhebung zu einer höheren Stufe feiern. So 
-        \edtext{urteilt}{\lemma{\textbf{urteilt}}\Aendnote{urtheilt E }}
-    
+               der \edtext{Seelentätigkeit}{\lemma{\textbf{Seelentätigkeit}}\Aendnote{Seelenthätigkeit E }}, den sie sogar als eine Erhebung zu einer höheren Stufe feiern. So \edtext{urteilt}{\lemma{\textbf{urteilt}}\Aendnote{urtheilt E }}
                 z. B. Schubert\edindex[person]{Person Nr. 4}:
-               Der Traum sei eine Befreiung des Geistes von der Gewalt der 
-        \edtext{äusseren}{\lemma{\textbf{äusseren}}\Aendnote{äußeren CS }}
-     Natur, eine Loslösung der Seele von den Fesseln der Sinnlichkeit. Andere
-               Denker gehen nicht so weit, halten aber daran fest, 
-        \edtext{daß}{\lemma{\textbf{daß}}\Aendnote{dass ED1D2 }}
-     die Träume wesentlich seelischen Anregungen entspringen und 
-        \edtext{Äußerungen}{\lemma{\textbf{Äußerungen}}\Aendnote{Aeusserungen E Äusserungen D1D2 }}
-     seelischer Kräfte darstellen, die tagsüber an ihrer freien
+               Der Traum sei eine Befreiung des Geistes von der Gewalt der \edtext{äusseren}{\lemma{\textbf{äusseren}}\Aendnote{äußeren CS }} Natur, eine Loslösung der Seele von den Fesseln der Sinnlichkeit. Andere
+               Denker gehen nicht so weit, halten aber daran fest, \edtext{daß}{\lemma{\textbf{daß}}\Aendnote{dass ED1D2 }} die Träume wesentlich seelischen Anregungen entspringen und \edtext{Äußerungen}{\lemma{\textbf{Äußerungen}}\Aendnote{Aeusserungen E Äusserungen D1D2 }} seelischer Kräfte darstellen, die tagsüber an ihrer freien
                Entfaltung behindert sind (der
                Traumphantasie\edindex[kw]{Schlagwort Nr. 2770} — Scherner\edindex[person]{Person Nr. 3}, Volkelt\edindex[person]{Person Nr. 2}). Eine Fähigkeit zur
-               
-        \edtext{Überleistung}{\lemma{\textbf{Überleistung}}\Aendnote{Ueberleistung E }}
-     wenigstens auf gewissen Gebieten (
-        \edtext{Gedächtnis\edindex[kw]{Schlagwort Nr. 3413}}{\lemma{\textbf{Gedächtnis\edindex[kw]{Schlagwort Nr. 3413}}}\Aendnote{Gedächtniss E }}
-    ) wird dem Traumleben von einer 
-        \edtext{großen}{\lemma{\textbf{großen}}\Aendnote{grossen ED1D2 }}
-     Anzahl von Beobachtern zugesprochen.
+               \edtext{Überleistung}{\lemma{\textbf{Überleistung}}\Aendnote{Ueberleistung E }} wenigstens auf gewissen Gebieten (\edtext{Gedächtnis\edindex[kw]{Schlagwort Nr. 3413}}{\lemma{\textbf{Gedächtnis\edindex[kw]{Schlagwort Nr. 3413}}}\Aendnote{Gedächtniss E }}) wird dem Traumleben von einer \edtext{großen}{\lemma{\textbf{großen}}\Aendnote{grossen ED1D2 }} Anzahl von Beobachtern zugesprochen.
         \pend
     
             
         \pstart
-        Im scharfen Gegensatz 
-        \edtext{hiezu}{\lemma{\textbf{hiezu}}\Aendnote{hierzu ED1D2 }}
-     vertritt die Mehrzahl ärztlicher Autoren eine Auffassung, welche dem Traum\edindex[kw]{Schlagwort Nr. 2748} kaum noch den 
-        \edtext{Wert}{\lemma{\textbf{Wert}}\Aendnote{Werth E }}
-    
-                eines psychischen Phänomens 
-        \edtext{beläßt}{\lemma{\textbf{beläßt}}\Aendnote{belässt ED1D2 }}
-    . Die Erreger des Traumes\edindex[kw]{Schlagwort Nr. 3412} sind nach ihnen 
-        \edtext{ausschließlich}{\lemma{\textbf{ausschließlich}}\Aendnote{ausschliesslich ED1D2 }}
-     die Sinnes- und Leibreize\edindex[kw]{Schlagwort Nr. 2221}, die entweder von 
-        \edtext{außen}{\lemma{\textbf{außen}}\Aendnote{aussen ED1D2 }}
-     den Schläfer treffen oder zufällig in seinen inneren Organen rege werden.
+        Im scharfen Gegensatz \edtext{hiezu}{\lemma{\textbf{hiezu}}\Aendnote{hierzu ED1D2 }} vertritt die Mehrzahl ärztlicher Autoren eine Auffassung, welche dem Traum\edindex[kw]{Schlagwort Nr. 2748} kaum noch den \edtext{Wert}{\lemma{\textbf{Wert}}\Aendnote{Werth E }}
+                eines psychischen Phänomens \edtext{beläßt}{\lemma{\textbf{beläßt}}\Aendnote{belässt ED1D2 }}. Die Erreger des Traumes\edindex[kw]{Schlagwort Nr. 3412} sind nach ihnen \edtext{ausschließlich}{\lemma{\textbf{ausschließlich}}\Aendnote{ausschliesslich ED1D2 }} die Sinnes- und Leibreize\edindex[kw]{Schlagwort Nr. 2221}, die entweder von \edtext{außen}{\lemma{\textbf{außen}}\Aendnote{aussen ED1D2 }} den Schläfer treffen oder zufällig in seinen inneren Organen rege werden.
                Das Geträumte hat nicht mehr Anspruch auf Sinn und Bedeutung als etwa die
                Tonfolge, welche die zehn Finger eines der Musik\edindex[kw]{Schlagwort Nr. 1806}
-               ganz unkundigen Menschen hervorrufen, wenn sie über die Tasten des 
-        \edtext{Instruments}{\lemma{\textbf{Instruments}}\Aendnote{Instrumentes ED1D2 }}
-     hinlaufen. Der Traum ist geradezu als „ein körperlicher, in allen Fällen
+               ganz unkundigen Menschen hervorrufen, wenn sie über die Tasten des \edtext{Instruments}{\lemma{\textbf{Instruments}}\Aendnote{Instrumentes ED1D2 }} hinlaufen. Der Traum ist geradezu als „ein körperlicher, in allen Fällen
                   unnützer, in vielen Fällen krankhafter Vorgang“ zu kenn-
         \pend
     
@@ -161,35 +231,15 @@
             
             
         \pstart
-        zeichnen (Binz\edindex[person]{Person Nr. 1}). Alle 
-        \edtext{Eigentümlichkeiten}{\lemma{\textbf{Eigentümlichkeiten}}\Aendnote{Eigenthümlichkeiten E }}
-     des Traumlebens erklären sich aus der 
-        \edtext{zusammenhanglosen}{\lemma{\textbf{zusammenhanglosen}}\Aendnote{zusammenhangslosen ED1D2 }}
-    , durch physiologische Reize erzwungenen Arbeit einzelner Organe oder
+        zeichnen (Binz\edindex[person]{Person Nr. 1}). Alle \edtext{Eigentümlichkeiten}{\lemma{\textbf{Eigentümlichkeiten}}\Aendnote{Eigenthümlichkeiten E }} des Traumlebens erklären sich aus der \edtext{zusammenhanglosen}{\lemma{\textbf{zusammenhanglosen}}\Aendnote{zusammenhangslosen ED1D2 }}, durch physiologische Reize erzwungenen Arbeit einzelner Organe oder
                Zellgruppen des sonst in Schlaf versenkten Gehirns.
         \pend
     
             
         \pstart
-        Wenig 
-        \edtext{beeinflußt}{\lemma{\textbf{beeinflußt}}\Aendnote{beeinflusst ED1D2 }}
-     durch dieses 
-        \edtext{Urteil}{\lemma{\textbf{Urteil}}\Aendnote{Urtheil E }}
-     der Wissenschaft und unbekümmert um die Quellen des Traumes 
-        \edtext{,}{\lemma{\textbf{,}}\Aendnote{ D1ED2 }}
-     scheint die Volksmeinung an dem Glauben festzuhalten, 
-        \edtext{daß}{\lemma{\textbf{daß}}\Aendnote{dass ED1D2 }}
-     der Traum denn doch einen Sinn habe, der sich auf die Verkündigung der
-               Zukunft bezieht 
-        \edtext{,}{\lemma{\textbf{,}}\Aendnote{ S }}
-     und der durch 
-        \edtext{irgend ein}{\lemma{\textbf{irgend ein}}\Aendnote{irgendein S }}
-     Verfahren der Deutung aus seinem oft verworrenen und 
-        \edtext{rätselhaften}{\lemma{\textbf{rätselhaften}}\Aendnote{räthselhaften E }}
-     Inhalt gewonnen werden könne. Die in Anwendung gebrachten
-               Deutungsmethoden bestehen darin, 
-        \edtext{daß}{\lemma{\textbf{daß}}\Aendnote{dass ED1D2 }}
-     man den erinnerten Trauminhalt durch einen anderen ersetzt, entweder
+        Wenig \edtext{beeinflußt}{\lemma{\textbf{beeinflußt}}\Aendnote{beeinflusst ED1D2 }} durch dieses \edtext{Urteil}{\lemma{\textbf{Urteil}}\Aendnote{Urtheil E }} der Wissenschaft und unbekümmert um die Quellen des Traumes \edtext{,}{\lemma{\textbf{,}}\Aendnote{ D1ED2 }} scheint die Volksmeinung an dem Glauben festzuhalten, \edtext{daß}{\lemma{\textbf{daß}}\Aendnote{dass ED1D2 }} der Traum denn doch einen Sinn habe, der sich auf die Verkündigung der
+               Zukunft bezieht \edtext{,}{\lemma{\textbf{,}}\Aendnote{ S }} und der durch \edtext{irgend ein}{\lemma{\textbf{irgend ein}}\Aendnote{irgendein S }} Verfahren der Deutung aus seinem oft verworrenen und \edtext{rätselhaften}{\lemma{\textbf{rätselhaften}}\Aendnote{räthselhaften E }} Inhalt gewonnen werden könne. Die in Anwendung gebrachten
+               Deutungsmethoden bestehen darin, \edtext{daß}{\lemma{\textbf{daß}}\Aendnote{dass ED1D2 }} man den erinnerten Trauminhalt durch einen anderen ersetzt, entweder
                Stück für Stück nach einem feststehenden
                   Schlüssel, oder das Ganze des Traumes durch ein anderes Ganzes, zu dem
                es in der Beziehung eines Symbols steht.
@@ -199,11 +249,7 @@
          
             
             
-            
-        \pstart
-        II
-        \pend
-    
+            \pstart[\section{II}]\pend
             
         \pstart
         Zu meiner großen Überraschung entdeckte ich eines Tages, daß nicht die
@@ -574,11 +620,7 @@
          
             
             
-            
-        \pstart
-        III
-        \pend
-    
+            \pstart[\section{III}]\pend
             
         \pstart
         Die Verwandlung der latenten Traumgedanken in den mani festen Trauminhalt
@@ -586,9 +628,7 @@
                von Umsetzung eines psychischen Materials aus der einen
                Ausdrucksweise in die andere, aus einer Ausdrucksweise, die uns ohne weiteres
                verständlich ist, in eine andere, zu deren Verständnis wir erst durch Anleitung
-               und Bemühung vordringen können, obwohl auch sie als Leistung unserer 
-        \edtext{Seelentätigkeit}{\lemma{\textbf{Seelentätigkeit}}\Aendnote{Seelenthätigkeit E }}
-     anerkannt werden muß. Mit Rücksicht auf das Verhältnis von latentem zu
+               und Bemühung vordringen können, obwohl auch sie als Leistung unserer \edtext{Seelentätigkeit}{\lemma{\textbf{Seelentätigkeit}}\Aendnote{Seelenthätigkeit E }} anerkannt werden muß. Mit Rücksicht auf das Verhältnis von latentem zu
                manifestem Trauminhalt lassen sich die Träume in drei Kategorien bringen. Wir
                können erstens solche Träume unterscheiden, die sinnvoll und gleichzeitig verständlich sind, d. h. eine Einreihung in unser seelisches Leben ohne
                weiteren Anstoß zulassen. Solcher Träume gibt es viele; sie sind meist kurz und
@@ -617,9 +657,7 @@
                   unzusammenhängend, verworren und sinnlos erscheinen. Die
                überwiegende Mehrzahl der Produkte unseres Träumens zeigt diese
                Charaktere, welche die Geringschätzung der Träume und die ärztliche
-               Theorie von der eingeschränkten 
-        \edtext{Seelentätigkeit}{\lemma{\textbf{Seelentätigkeit}}\Aendnote{Seelenthätigkeit E }}
-     begründet haben. Zumal in den längeren und komplizierteren
+               Theorie von der eingeschränkten \edtext{Seelentätigkeit}{\lemma{\textbf{Seelentätigkeit}}\Aendnote{Seelenthätigkeit E }} begründet haben. Zumal in den längeren und komplizierteren
                Traumkompositionen vermißt man nur selten die deutlichsten Zeichen der
                Inkohärenz.
         \pend
@@ -840,11 +878,7 @@
          
             
             
-            
-        \pstart
-        IV
-        \pend
-    
+            \pstart[\section{IV}]\pend
             
         \pstart
         Wir werden geneigt sein anzunehmen, daß eine solche Umsetzung in eine
@@ -1081,11 +1115,7 @@
          
             
             
-            
-        \pstart
-        V
-        \pend
-    
+            \pstart[\section{V}]\pend
             
         \pstart
         Bei den komplizierten und verworrenen Träumen, die uns jetzt beschäftigen, läßt
@@ -1281,11 +1311,7 @@
          
             
             
-            
-        \pstart
-        VI
-        \pend
-    
+            \pstart[\section{VI}]\pend
             
         \pstart
         Ist es hauptsächlich der Verschiebungsarbeit zur Last zu legen, wenn man die
@@ -1318,66 +1344,28 @@
             
             
         \pstart
-        sich 
-        \edtext{regelmäßig}{\lemma{\textbf{regelmäßig}}\Aendnote{regelmässig E }}
-     Erinnerungen an eindrucksvolle Erlebnisse, — nicht selten aus früher
-               Kindheit 
-        \edtext{, —}{\lemma{\textbf{, —}}\Aendnote{— E }}
-     die also selbst als Situationen mit meist visuellem Inhalt 
-        \edtext{erfaßt}{\lemma{\textbf{erfaßt}}\Aendnote{erfasst ED1D2 }}
-     worden sind. Wo es irgend möglich ist, 
-        \edtext{äußert}{\lemma{\textbf{äußert}}\Aendnote{äussert ED1D2 }}
-     dieser 
-        \edtext{Bestandteil}{\lemma{\textbf{Bestandteil}}\Aendnote{Bestandtheil E }}
-     der Traumgedanken einen bestimmenden 
-        \edtext{Einfluß}{\lemma{\textbf{Einfluß}}\Aendnote{Einﬂuss ED1 Einfluss D2 }}
-     auf die Gestaltung des Trauminhalts, indem er gleichsam als 
-        \edtext{Kristallisationspunkt}{\lemma{\textbf{Kristallisationspunkt}}\Aendnote{Krystallisationspunkt ED1 }}
-     anziehend und 
-        \edtext{verteilend}{\lemma{\textbf{verteilend}}\Aendnote{vertheilend E }}
-     auf das Material der Traumgedanken wirkt. Die Traumsituation
-               ist oft nichts anderes als eine 
-        \edtext{modifizierte}{\lemma{\textbf{modifizierte}}\Aendnote{modifizirte ED1 }}
-     und durch Einschaltungen 
-        \edtext{komplizierte}{\lemma{\textbf{komplizierte}}\Aendnote{komplizirte E }}
-     Wiederholung eines solchen eindrucksvollen Erlebnisses;
+        sich \edtext{regelmäßig}{\lemma{\textbf{regelmäßig}}\Aendnote{regelmässig E }} Erinnerungen an eindrucksvolle Erlebnisse, — nicht selten aus früher
+               Kindheit \edtext{, —}{\lemma{\textbf{, —}}\Aendnote{— E }} die also selbst als Situationen mit meist visuellem Inhalt \edtext{erfaßt}{\lemma{\textbf{erfaßt}}\Aendnote{erfasst ED1D2 }} worden sind. Wo es irgend möglich ist, \edtext{äußert}{\lemma{\textbf{äußert}}\Aendnote{äussert ED1D2 }} dieser \edtext{Bestandteil}{\lemma{\textbf{Bestandteil}}\Aendnote{Bestandtheil E }} der Traumgedanken einen bestimmenden \edtext{Einfluß}{\lemma{\textbf{Einfluß}}\Aendnote{Einﬂuss ED1 Einfluss D2 }} auf die Gestaltung des Trauminhalts, indem er gleichsam als \edtext{Kristallisationspunkt}{\lemma{\textbf{Kristallisationspunkt}}\Aendnote{Krystallisationspunkt ED1 }} anziehend und \edtext{verteilend}{\lemma{\textbf{verteilend}}\Aendnote{vertheilend E }} auf das Material der Traumgedanken wirkt. Die Traumsituation
+               ist oft nichts anderes als eine \edtext{modifizierte}{\lemma{\textbf{modifizierte}}\Aendnote{modifizirte ED1 }} und durch Einschaltungen \edtext{komplizierte}{\lemma{\textbf{komplizierte}}\Aendnote{komplizirte E }} Wiederholung eines solchen eindrucksvollen Erlebnisses;
                getreue und unvermengte Reproduktionen realer
-               
-        \edtext{Szenen}{\lemma{\textbf{Szenen}}\Aendnote{Scenen E }}
-     bringt der Traum hingegen nur 
-        \edtext{sehr}{\lemma{\textbf{sehr}}\Aendnote{höchst E }}
-     selten.
+               \edtext{Szenen}{\lemma{\textbf{Szenen}}\Aendnote{Scenen E }} bringt der Traum hingegen nur \edtext{sehr}{\lemma{\textbf{sehr}}\Aendnote{höchst E }} selten.
         \pend
     
             
         \pstart
-        Der Trauminhalt besteht aber nicht 
-        \edtext{ausschließlich}{\lemma{\textbf{ausschließlich}}\Aendnote{ausschliesslich ED1D2 }}
-     aus Situationen, sondern 
-        \edtext{schließt}{\lemma{\textbf{schließt}}\Aendnote{schliesst ED1D2 }}
-     auch unvereinigte Brocken von visuellen Bildern, Reden und selbst Stücke
+        Der Trauminhalt besteht aber nicht \edtext{ausschließlich}{\lemma{\textbf{ausschließlich}}\Aendnote{ausschliesslich ED1D2 }} aus Situationen, sondern \edtext{schließt}{\lemma{\textbf{schließt}}\Aendnote{schliesst ED1D2 }} auch unvereinigte Brocken von visuellen Bildern, Reden und selbst Stücke
                von unveränderten Gedanken ein. Es wird daher vielleicht anregend wirken,
                wenn wir in knappster Weise die Darstellungsmittel mustern, welche der
                Traumarbeit zur Verfügung stehen, um in der
-               
-        \edtext{eigentümlichen}{\lemma{\textbf{eigentümlichen}}\Aendnote{eigenthümlichen E }}
-     Ausdrucksweise des Traumes die Traumgedanken wiederzugeben.
+               \edtext{eigentümlichen}{\lemma{\textbf{eigentümlichen}}\Aendnote{eigenthümlichen E }} Ausdrucksweise des Traumes die Traumgedanken wiederzugeben.
         \pend
     
             
         \pstart
         Die Traumgedanken, welche wir durch die Analyse erfahren, zeigen sich uns als
-               ein psychischer Komplex 
-        \edtext{von}{\lemma{\textbf{von}}\Aendnote{vom ED1D2 }}
-     allerverwickeltstem Aufbau. Die Stücke desselben stehen in den
-               mannigfaltigsten logischen Relationen 
-        \edtext{zu einander}{\lemma{\textbf{zu einander}}\Aendnote{zueinander S }}
-    ; sie bilden 
-        \edtext{Vorder- und}{\lemma{\textbf{Vorder- und}}\Aendnote{Vorderund S }}
-     Hintergrund, Bedingungen, Abschweifungen, Erläuterungen,
-               Beweisgänge und Einsprüche. Fast 
-        \edtext{regelmäßig}{\lemma{\textbf{regelmäßig}}\Aendnote{regelmässig E }}
-     steht neben einem Gedankengang sein kontradiktorisches
+               ein psychischer Komplex \edtext{von}{\lemma{\textbf{von}}\Aendnote{vom ED1D2 }} allerverwickeltstem Aufbau. Die Stücke desselben stehen in den
+               mannigfaltigsten logischen Relationen \edtext{zu einander}{\lemma{\textbf{zu einander}}\Aendnote{zueinander S }}; sie bilden \edtext{Vorder- und}{\lemma{\textbf{Vorder- und}}\Aendnote{Vorderund S }} Hintergrund, Bedingungen, Abschweifungen, Erläuterungen,
+               Beweisgänge und Einsprüche. Fast \edtext{regelmäßig}{\lemma{\textbf{regelmäßig}}\Aendnote{regelmässig E }} steht neben einem Gedankengang sein kontradiktorisches
                Widerspiel. Diesem Material fehlt keiner der Charaktere, die uns von unserem
                wachen Denken her bekannt sind. Soll nun aus alledem ein Traum werden, so
                   unterliegt dies psychische Material einer Pressung, die es
@@ -1478,10 +1466,14 @@
                Hinsicht feiner
         \pend
     
-            1) Es ist bemerkenswert, daß
+            
+        \footnote{1) Es ist bemerkenswert, daß
                namhafte Sprachforscher behaupten, die ältesten menschlichen Sprachen hätten
-               ganz allgemein kontradiktorische Gegensätze durch das nämliche Wort zum Ausdruck
-               gebracht (stark—schwach; innen—außen usw.: „Gegensinn der Urworte“).
+               ganz allgemein kontradiktorische Gegensätze durch 
+        \toendnotes[A]{{\thepage} Fußnote daß}{\lemma{\textbf{daß}}{dass ED1D2 }}
+     nämliche Wort zum Ausdruck
+               gebracht (stark—schwach; innen—außen usw.: „Gegensinn der Urworte“).}
+    
          
             
             
@@ -1644,11 +1636,7 @@
          
             
             
-            
-        \pstart
-        VII
-        \pend
-    
+            \pstart[\section{VII}]\pend
             
         \pstart
         Wir sind mit der Würdigung der Traumarbeit noch nicht zu Ende gekommen. Wir
@@ -1739,9 +1727,7 @@
                nicht zu entdecken. Halten wir an der Begriffsbestimmung fest, daß „Traumarbeit“
                die Überführung der Traumgedanken in den Trauminhalt bezeichnet, so müssen wir
                uns sagen, die Traumarbeit sei nicht schöpferisch, sie entwickle
-               keine ihr eigentümliche Phantasie, sie 
-        \edtext{urteilt}{\lemma{\textbf{urteilt}}\Aendnote{urtheilt E }}
-     nicht, schließt nicht, sie leistet überhaupt nichts anderes als das
+               keine ihr eigentümliche Phantasie, sie \edtext{urteilt}{\lemma{\textbf{urteilt}}\Aendnote{urtheilt E }} nicht, schließt nicht, sie leistet überhaupt nichts anderes als das
                Material zu verdichten, verschieben und auf Anschaulichkeit umzuarbeiten, wozu
                noch das inkonstante letzte Stückchen deutender Bearbeitung hinzukommt. Man
                findet zwar mancherlei im Trauminhalt, was man als das Ergebnis einer
@@ -1898,11 +1884,7 @@
          
             
             
-            
-        \pstart
-        VIII
-        \pend
-    
+            \pstart[\section{VIII}]\pend
             
         \pstart
         Nachdem wir in den vorstehenden Darlegungen die Traumarbeit kennen
@@ -2029,11 +2011,7 @@
          
             
             
-            
-        \pstart
-        IX
-        \pend
-    
+            \pstart[\section{IX}]\pend
             
         \pstart
         Nachdem wir uns den Begriff der Verdrängung fixiert und die Traumentstellung in
@@ -2120,11 +2098,7 @@
          
             
             
-            
-        \pstart
-        X
-        \pend
-    
+            \pstart[\section{X}]\pend
             
         \pstart
         Die Philosophen haben bisher keinen Anlaß gehabt, sich mit einer Psychologie der
@@ -2208,11 +2182,7 @@
          
             
             
-            
-        \pstart
-        XI
-        \pend
-    
+            \pstart[\section{XI}]\pend
             
         \pstart
         Wenn wir den Trauminhalt als Darstellung eines erfüllten Wunsches auffassen und
@@ -2389,11 +2359,7 @@
          
             
             
-            
-        \pstart
-        XII
-        \pend
-    
+            \pstart[\section{XII}]\pend
             
         \pstart
         Wer an dem Gesichtspunkte der Zensur als dem Hauptmotiv der Traumentstellung festhält, der wird nicht befremdet
@@ -2462,9 +2428,11 @@
                Traumsymbolik ist es möglich,
         \pend
     
-            1) Vergl. hiezu des
+            
+        \footnote{1) Vergl. hiezu des
                Verfassers „Drei Abhandlungen zur Sexualtheorie“ 1905, fünfte Auflage 1922.
-               (Ges. Schriften, Bd. V.)
+               (Ges. Schriften, Bd. V.)}
+    
          
             
             
@@ -2565,18 +2533,16 @@
                Dramatisierung liefert.1
         \pend
     
-            1) Weiteres über die
+            
+        \footnote{1) Weiteres über die
                Traumsymbolik findet man außer in den alten Schriften zur Traumdeutung (Artemidorus von Daldis, Scherner\edindex[person]{Person Nr. 03500}, Das Leben des
                Traumes 1861) in der „Traumdeutung“ des Verfassers, in den mythologischen
-               Arbeiten der psychoanalytischen Schule und auch in den Arbeiten von W. Stekel („Die Sprache des Traumes“ 1911).
+               Arbeiten der psychoanalytischen Schule und auch in den Arbeiten von W. Stekel („Die Sprache des Traumes“ 1911).}
+    
          
             
             
-            
-        \pstart
-        XIII
-        \pend
-    
+            \pstart[\section{XIII}]\pend
             
         \pstart
         Ich erhebe weder den Anspruch, hier auf alle Traumprobleme Licht geworfen, noch
@@ -2604,8 +2570,10 @@
                ich
         \pend
     
-            1) 1922 in siebenter Auflage
-               erschienen. (Ges. Schriften, Bd. II und III.)
+            
+        \footnote{1) 1922 in siebenter Auflage
+               erschienen. (Ges. Schriften, Bd. II und III.)}
+    
          
             
             
